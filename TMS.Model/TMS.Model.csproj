@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Entity\Personnel\Personnelboard\" />
+    <Folder Include="Entity\Personnel\Hiredtohandle\" />
+    <Folder Include="Entity\Personnel\LeavetoDealwith\" />
+    <Folder Include="Entity\Personnel\PosiTivetoDealwith\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+  </ItemGroup>
+
+</Project>
