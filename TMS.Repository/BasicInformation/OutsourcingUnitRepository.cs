@@ -27,7 +27,7 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<List<OutsourcingUnit>> GetOutsourcingUnits(string name, string phone)
         {
-            string sql = "select OutsourcingUnitID,OutsourcingUnitName,OutsourcingUnitEmail,OutsourcingUnitTelephone,OutsourcingUnitPhone,OutsourcingUnitPlace,OutsourcingUnitCreateTime from OutsourcingUnit";
+            StringBuilder sql = new StringBuilder("select OutsourcingUnitID,OutsourcingUnitName,OutsourcingUnitEmail,OutsourcingUnitTelephone,OutsourcingUnitPhone,OutsourcingUnitPlace,OutsourcingUnitCreateTime from OutsourcingUnit");
             List<OutsourcingUnit> data = await _SqlDB.QueryAsync<OutsourcingUnit>(sql);
             if (!string.IsNullOrEmpty(name))
             {
@@ -47,8 +47,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<OutsourcingUnit> EditOutsourcingUnit(int id)
         {
-            string sql = "select OutsourcingUnitID,OutsourcingUnitName,OutsourcingUnitEmail,OutsourcingUnitTelephone,OutsourcingUnitPhone,OutsourcingUnitPlace,OutsourcingUnitResponsibleName,OutsourcingUnitCreateTime from OutsourcingUnit where OutsourcingUnitID=@ID";
-            return await _SqlDB.QueryFirstAsync<OutsourcingUnit>(sql, new { @ID = id });
+            StringBuilder sql = new StringBuilder("select OutsourcingUnitID,OutsourcingUnitName,OutsourcingUnitEmail,OutsourcingUnitTelephone,OutsourcingUnitPhone,OutsourcingUnitPlace,OutsourcingUnitResponsibleName,OutsourcingUnitCreateTime from OutsourcingUnit where OutsourcingUnitID=@ID");
+            return await _SqlDB.QueryFirstAsync<OutsourcingUnit>(sql.ToString(), new { @ID = id });
         }
 
         /// <summary>
@@ -60,10 +60,10 @@ namespace TMS.Repository.BasicInformation
         {
             int code = -1;
             string[] str = id.Split(',');
-            string sql = "delete from OutsourcingUnit where OutsourcingUnitID in (@ID)";
+            StringBuilder sql = new StringBuilder("delete from OutsourcingUnit where OutsourcingUnitID in (@ID)");
             foreach (var item in str)
             {
-                code = await _SqlDB.ExecuteAsync(sql, new { @ID = item });
+                code = await _SqlDB.ExecuteAsync(sql.ToString(), new { @ID = item });
             }
             return code == 0 ? true : false;
         }
@@ -75,8 +75,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<bool> AddOutsourcingUnit(OutsourcingUnit model)
         {
-            string sql = "insert into OutsourcingUnit values(@OutsourcingUnitName,@OutsourcingUnitEmail,@OutsourcingUnitTelephone,@OutsourcingUnitPhone,@OutsourcingUnitPlace,@OutsourcingUnitResponsibleName,@OutsourcingUnitCreateTime)";
-            int code = await _SqlDB.ExecuteAsync(sql, new
+            StringBuilder sql = new StringBuilder("insert into OutsourcingUnit values(@OutsourcingUnitName,@OutsourcingUnitEmail,@OutsourcingUnitTelephone,@OutsourcingUnitPhone,@OutsourcingUnitPlace,@OutsourcingUnitResponsibleName,@OutsourcingUnitCreateTime)");
+            int code = await _SqlDB.ExecuteAsync(sql.ToString(), new
             {
                 @OutsourcingUnitName = model.OutsourcingUnitName,
                 @OutsourcingUnitEmail = model.OutsourcingUnitEmail,
@@ -96,8 +96,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<bool> UpdOutsourcingUnit(OutsourcingUnit model)
         {
-            string sql = "update OutsourcingUnit set OutsourcingUnitName=@OutsourcingUnitName,OutsourcingUnitEmail=@OutsourcingUnitEmail,OutsourcingUnitTelephone=@OutsourcingUnitTelephone,OutsourcingUnitPhone=@OutsourcingUnitPhone,OutsourcingUnitPlace=@OutsourcingUnitPlace,OutsourcingUnitResponsibleName=@OutsourcingUnitResponsibleName,OutsourcingUnitCreateTime=@OutsourcingUnitCreateTime where OutsourcingUnitID=@OutsourcingUnitID";
-            int code = await _SqlDB.ExecuteAsync(sql, new
+            StringBuilder sql = new StringBuilder("update OutsourcingUnit set OutsourcingUnitName=@OutsourcingUnitName,OutsourcingUnitEmail=@OutsourcingUnitEmail,OutsourcingUnitTelephone=@OutsourcingUnitTelephone,OutsourcingUnitPhone=@OutsourcingUnitPhone,OutsourcingUnitPlace=@OutsourcingUnitPlace,OutsourcingUnitResponsibleName=@OutsourcingUnitResponsibleName,OutsourcingUnitCreateTime=@OutsourcingUnitCreateTime where OutsourcingUnitID=@OutsourcingUnitID");
+            int code = await _SqlDB.ExecuteAsync(sql.ToString(), new
             {
                 @OutsourcingUnitID = model.OutsourcingUnitID,
                 @OutsourcingUnitName = model.OutsourcingUnitName,

@@ -26,7 +26,7 @@ namespace TMS.Repository.User
         /// <returns></returns>
         public async Task<List<RoleModel>> GetRolesAsync(string roleName)
         {
-            string sql = "select RoleID,RoleName,RoleMsg,RoleCreateName,RoleCreateTime,RoleStatus from RoleModel";
+            StringBuilder sql = new StringBuilder("select RoleID,RoleName,RoleMsg,RoleCreateName,RoleCreateTime,RoleStatus from RoleModel");
             List<RoleModel> data = await _SqlDB.QueryAsync<RoleModel>(sql);
             if (!string.IsNullOrEmpty(roleName))
             {

@@ -27,8 +27,7 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<List<OwnerOfCargo>> GetOwnerOfCargosAsync(string ownerName, string ownerPhone, DateTime? dateTime)
         {
-            StringBuilder sql = new StringBuilder();
-            sql.Append("select  b.EmployeeName,b.EmployeePhone,d.OutsourcingUnitName,d.OutsourcingUnitPlace,a.DrivingLicenceTime,a.DrivingLicenceImg,a.Remark,d.OutsourcingUnitCreateTime from  OwnerOfCargo a join EmployeeModel b on a.OwnerOfCargoID = b.EmployeeID join  RegistrationModel c on a.OwnerOfCargoID = c.RegistrationID join OutsourcingUnit d on a.OwnerOfCargoID = d.OutsourcingUnitID");
+            StringBuilder sql = new StringBuilder("select  b.EmployeeName,b.EmployeePhone,d.OutsourcingUnitName,d.OutsourcingUnitPlace,a.DrivingLicenceTime,a.DrivingLicenceImg,a.Remark,d.OutsourcingUnitCreateTime from  OwnerOfCargo a join EmployeeModel b on a.OwnerOfCargoID = b.EmployeeID join  RegistrationModel c on a.OwnerOfCargoID = c.RegistrationID join OutsourcingUnit d on a.OwnerOfCargoID = d.OutsourcingUnitID");
            
             List<OwnerOfCargo> data = await _SqlDB.QueryAsync<OwnerOfCargo>(sql);
 

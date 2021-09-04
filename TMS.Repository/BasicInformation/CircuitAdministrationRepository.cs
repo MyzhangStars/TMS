@@ -30,7 +30,7 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<List<CircuitAdministration>> GetCircuits(string circuitName, string startAddress, string endAddress, string whether, string phone, string units)
         {
-            string sql = "select CircuitAdministrationID,CircuitName,CircuitStartPlace,CircuitEndPlace,IsOutsource,OwnerName,OwnerPHone,OwnerUnit,Remark,CreateTime,CircuitStatus from CircuitAdministration";
+            StringBuilder sql = new StringBuilder("select CircuitAdministrationID,CircuitName,CircuitStartPlace,CircuitEndPlace,IsOutsource,OwnerName,OwnerPHone,OwnerUnit,Remark,CreateTime,CircuitStatus from CircuitAdministration");
             List<CircuitAdministration> data = await _SqlDB.QueryAsync<CircuitAdministration>(sql);
             if (!string.IsNullOrEmpty(circuitName))
             {
@@ -66,8 +66,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<CircuitAdministration> EditCircuit(int id)
         {
-            string sql = "select CircuitAdministrationID,CircuitName,CircuitStartPlace,CircuitEndPlace,IsOutsource,OwnerName,OwnerPHone,OwnerUnit,Remark,CreateTime,CircuitStatus from CircuitAdministration where CircuitAdministrationID=@ID";
-            return await _SqlDB.QueryFirstAsync<CircuitAdministration>(sql, new { @ID = id });
+            StringBuilder sql = new StringBuilder("select CircuitAdministrationID,CircuitName,CircuitStartPlace,CircuitEndPlace,IsOutsource,OwnerName,OwnerPHone,OwnerUnit,Remark,CreateTime,CircuitStatus from CircuitAdministration where CircuitAdministrationID=@ID");
+            return await _SqlDB.QueryFirstAsync<CircuitAdministration>(sql.ToString(), new { @ID = id });
         }
 
         /// <summary>
@@ -79,10 +79,10 @@ namespace TMS.Repository.BasicInformation
         {
             int code = -1;
             string[] str = id.Split(',');
-            string sql = "delete from CircuitAdministration where CircuitAdministrationID in (@ID)";
+            StringBuilder sql = new StringBuilder("delete from CircuitAdministration where CircuitAdministrationID in (@ID)");
             foreach (var item in str)
             {
-                code = await _SqlDB.ExecuteAsync(sql, new { @ID = item });
+                code = await _SqlDB.ExecuteAsync(sql.ToString(), new { @ID = item });
             }
             return code == 0 ? true : false;
         }
@@ -94,8 +94,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<bool> AddCircuit(CircuitAdministration model)
         {
-            string sql = "insert into CircuitAdministration values(@CircuitNam,@CircuitStartPlace,@CircuitEndPlace,@IsOutsource,@OwnerName,@OwnerPHone,@OwnerUnit,@Remark,@CreateTime,@CircuitStatus)";
-            int code = await _SqlDB.ExecuteAsync(sql, new
+            StringBuilder sql = new StringBuilder("insert into CircuitAdministration values(@CircuitNam,@CircuitStartPlace,@CircuitEndPlace,@IsOutsource,@OwnerName,@OwnerPHone,@OwnerUnit,@Remark,@CreateTime,@CircuitStatus)");
+            int code = await _SqlDB.ExecuteAsync(sql.ToString(), new
             {
                 @CircuitNam = model.CircuitName,
                 @CircuitStartPlace = model.CircuitEndPlace,
@@ -118,8 +118,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<bool> UpdCircuit(CircuitAdministration model)
         {
-            string sql = "update CircuitAdministration set CircuitName=@CircuitNam,CircuitStartPlace=@CircuitStartPlace,CircuitEndPlace=@CircuitEndPlace,IsOutsource=@IsOutsource,OwnerName=@OwnerName,OwnerPHone=@OwnerPHone,OwnerUnit=@OwnerUnit,Remark=@Remark,CreateTime=@CreateTime,CircuitStatus=@CircuitStatus where CircuitAdministrationID=@CircuitAdministrationID";
-            int code = await _SqlDB.ExecuteAsync(sql, new
+            StringBuilder sql = new StringBuilder("update CircuitAdministration set CircuitName=@CircuitNam,CircuitStartPlace=@CircuitStartPlace,CircuitEndPlace=@CircuitEndPlace,IsOutsource=@IsOutsource,OwnerName=@OwnerName,OwnerPHone=@OwnerPHone,OwnerUnit=@OwnerUnit,Remark=@Remark,CreateTime=@CreateTime,CircuitStatus=@CircuitStatus where CircuitAdministrationID=@CircuitAdministrationID");
+            int code = await _SqlDB.ExecuteAsync(sql.ToString(), new
             {
                 @CircuitAdministrationID = model.CircuitAdministrationID,
                 @CircuitNam = model.CircuitName,
@@ -144,8 +144,8 @@ namespace TMS.Repository.BasicInformation
         /// <returns></returns>
         public async Task<bool> SmallUpd(int id, int status)
         {
-            string sql = "update CircuitAdministration set CircuitStatus=@status where CircuitAdministrationID=@id";
-            int code = await _SqlDB.ExecuteAsync(sql, new
+            StringBuilder sql = new StringBuilder("update CircuitAdministration set CircuitStatus=@status where CircuitAdministrationID=@id");
+            int code = await _SqlDB.ExecuteAsync(sql.ToString(), new
             {
                 @id = id,
                 @status = status

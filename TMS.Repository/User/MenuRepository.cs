@@ -27,15 +27,15 @@ namespace TMS.Repository.User
         /// <returns></returns>
         public async Task<List<MenuModel>> GetMenusAsync()
         {
-            string sql = "select e.MenuID,e.MenuName,e.MenuParentID,e.MenuLink,e.MenuIcon,e.MenuStatus from UserRoleModel a join UserModel b on a.UserId=b.UserId join RoleModel c on c.RoleId = a.RoleId join RoleMenuModel d on c.RoleId = d.RoleId join MenuModel e on e.MenuId = d.MenuId where b.UserId = @userId ";
-            List<MenuModel> data = await _SqlDB.QueryAsync<MenuModel>(sql, new { @userId = UserRoleMenuViewModel.UserId });
+            StringBuilder sql = new StringBuilder("select e.MenuID,e.MenuName,e.MenuParentID,e.MenuLink,e.MenuIcon,e.MenuStatus from UserRoleModel a join UserModel b on a.UserId=b.UserId join RoleModel c on c.RoleId = a.RoleId join RoleMenuModel d on c.RoleId = d.RoleId join MenuModel e on e.MenuId = d.MenuId where b.UserId = @userId ");
+            List<MenuModel> data = await _SqlDB.QueryAsync<MenuModel>(sql.ToString(), new { @userId = UserRoleMenuViewModel.UserId }); ;
             return data;
         }
 
         //显示所有菜单
         public async Task<List<MenuModel>> GetMenus()
         {
-            string sql = "select MenuID,MenuName,MenuParentID,MenuLink,MenuIcon,MenuStatus from menumodel";
+            StringBuilder sql = new StringBuilder("select MenuID,MenuName,MenuParentID,MenuLink,MenuIcon,MenuStatus from menumodel");
             List<MenuModel> data = await _SqlDB.QueryAsync<MenuModel>(sql);
             return data;
         }
@@ -94,8 +94,8 @@ namespace TMS.Repository.User
         /// <returns></returns>
         public async Task<List<int>> Menu_ID(int roleId)
         {
-            string sql = "select MenuModel.MenuID from RoleMenuModel join RoleModel on RoleModel.RoleId = RoleMenuModel.RoleId join MenuModel on MenuModel.MenuId = RoleMenuModel.MenuId where RoleModel.RoleId = @roleId and MenuModel.MenuParentID != 0";
-            return await _SqlDB.QueryAsync<int>(sql, new { @roleId = roleId });
+            StringBuilder sql = new StringBuilder("select MenuModel.MenuID from RoleMenuModel join RoleModel on RoleModel.RoleId = RoleMenuModel.RoleId join MenuModel on MenuModel.MenuId = RoleMenuModel.MenuId where RoleModel.RoleId = @roleId and MenuModel.MenuParentID != 0");
+            return await _SqlDB.QueryAsync<int>(sql.ToString(), new { @roleId = roleId });
         }
 
 
